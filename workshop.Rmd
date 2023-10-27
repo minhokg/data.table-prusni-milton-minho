@@ -1,0 +1,175 @@
+---
+title: "Wrangling data table"
+subtitle: "with data.table"  
+author: 
+  - "Prusni"
+  - "Milton"
+  - "Minho"
+institute: "Hertie School"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    seal: false
+    nature:
+      slideNumberFormat: "%current%"
+      highlightStyle: solarized-light
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: true
+---
+
+```{r setup, include=FALSE}
+library(data.table)
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  prompt = T,
+  fig.align = "center",
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+xaringanExtra::use_tile_view()
+xaringanExtra::use_panelset()
+xaringanExtra::use_tachyons()
+
+library(xaringanthemer)
+style_solarized_light(
+  base_font_size = "20px",
+  text_font_size = "1.5rem",
+  header_h1_font_size = "2.5rem",
+  header_h2_font_size = "2rem",
+  header_font_google = google_font("Roboto"),
+  text_font_google = google_font("Lato"),
+  code_font_google = google_font("IBM Plex Mono"),
+  colors = c(
+red = "#f34213",
+purple = "#3e2f5b",
+orange = "#ff8811",
+green = "#136f63",
+white = "#FFFFFF",
+black = "#000622"
+)
+)
+```
+class: title-slide, left, top
+background-image: url(./material/berlin.jpg)
+background-size: 1250px
+# `r rmarkdown::metadata$title`
+## `r rmarkdown::metadata$subtitle`
+### `r rmarkdown::metadata$author`
+### `r rmarkdown::metadata$institute`
+
+---
+background-image: url(./material/data.table.png)
+background-position: top right
+background-size: 110px 120px
+layout: true
+---
+
+# Table of contents
+----
+
+<br>
+
+1. [Why data.table?](#Whydt)
+
+2. [Basic Syntax: i, j indexing](#basic)
+
+3. [Advanced Index: 'by' argument](#advanced)
+
+(Hint: Press 'O' if you want )
+---
+
+class:inverse, center, middle
+name: Whydt 
+
+# Why data.table?
+----
+Don't forget to import library "data.table"
+---
+
+# Two Advantages: Fast & Convenience
+----
+
+.panelset.sideways[
+.panel[.panel-name[Fast]
+Fread is the efficient tool for importing large data.  
+
+<font size="5">For 88MB size data</font>...
+
+.pull-left[
+```{r}
+start_time <- system.time({
+  dt <- read.csv("./material/real_estate.csv")
+})
+
+# Calculate the elapsed time
+elapsed_time <- start_time["elapsed"]
+cat("Importing time:", elapsed_time, "seconds\n")
+```
+]
+.pull-right[
+```{r}
+start_time <- system.time({
+  dt <- fread("./material/real_estate.csv")
+})
+
+# Calculate the elapsed time
+elapsed_time <- start_time["elapsed"]
+cat("Importing time:", elapsed_time, "seconds\n")
+```
+]]
+.panel[.panel-name[Convenience]
+You don't need to use $ sign 
+.pull-top[
+```{r}
+# Basic
+Hartford_dt <- 
+  dt[dt$Town=="Hartford",] 
+```
+
+]
+.pull-bottom[
+```{r}
+# data.table
+Hartford_dt <- 
+  dt[Town=="Hartford"]
+```
+]]]
+---
+
+# General Structure of data.table
+----
+```{r echo=FALSE, fig.cap="",fig.align='center',out.width='50%'}
+knitr::include_graphics("./material/syntax.png")
+```
+<br><br>
+* It is similar with SQL structure  
+
+* This structure is all you need to remember
+---
+
+class: inverse, center, middle
+name: basic
+
+# Basic Syntax of data.table: i, j indexing 
+----
+
+---
+
+class: inverse, center, middle
+name: advanced 
+# Advanced Syntax of data.table: by argument
+----
+
+---
+
+
